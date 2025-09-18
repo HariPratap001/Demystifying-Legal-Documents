@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalEase - Simplify Legal Documents</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>LegalEase</h1>
+                <p>Making legal documents understandable</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="{{ url_for('privacy_policy') }}">Privacy</a></li>
+                    <li><a href="{{ url_for('terms_of_service') }}">Terms</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Demystify Legal Documents with AI</h1>
+                <p>Upload your legal documents and get clear, accessible explanations in seconds.</p>
+                <div class="upload-container">
+                    <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                        <div class="file-upload">
+                            <input type="file" name="file" id="file" class="file-input" accept=".pdf,.docx,.txt">
+                            <label for="file">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                                Choose a file
+                            </label>
+                            <span id="file-name">No file selected</span>
+                        </div>
+                        <button type="submit" class="btn primary-btn">Upload & Analyze</button>
+                    </form>
+                </div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for message in messages %}
+                                <div class="flash-message">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>How LegalEase Helps You</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    </div>
+                    <h3>Document Simplification</h3>
+                    <p>Convert complex legal jargon into clear, everyday language that anyone can understand.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H6v-1.4c0-2 4-3.1 6-3.1s6 1.1 6 3.1V19z"/></svg>
+                    </div>
+                    <h3>Risk Identification</h3>
+                    <p>Highlight potentially unfavorable terms and hidden risks that might affect you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z"/></svg>
+                    </div>
+                    <h3>Interactive Q&A</h3>
+                    <p>Ask specific questions about the document and get clear, accurate answers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                    </div>
+                    <h3>Privacy & Security</h3>
+                    <p>Your documents are processed securely and never stored permanently on our servers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Upload Your Document</h3>
+                    <p>Upload any legal document in PDF, DOCX, or TXT format.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>AI Analysis</h3>
+                    <p>Our AI powered by Google's Gemini analyzes and processes the document.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Clear Explanations</h3>
+                    <p>Receive simplified explanations, summaries, and risk assessments.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Ask Questions</h3>
+                    <p>Ask specific questions about any part of the document you don't understand.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>LegalEase</h2>
+                    <p>Making legal documents understandable</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ url_for('terms_of_service') }}">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-disclaimer">
+                    <h3>Disclaimer</h3>
+                    <p>LegalEase is not a substitute for professional legal advice. Always consult with a qualified attorney for legal matters.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 LegalEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Display the name of the selected file
+        document.getElementById('file').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'No file selected';
+            document.getElementById('file-name').textContent = fileName;
+        });
+    </script>
+</body>
+</html>

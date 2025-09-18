@@ -1,0 +1,12 @@
+flask==2.0.1
+flask-wtf==1.0.0
+python-dotenv==0.19.1
+pdf2image==1.16.0
+pytesseract==0.3.8
+python-docx==0.8.11
+PyPDF2==2.12.1
+requests==2.26.0
+gunicorn==20.1.0
+werkzeug==2.0.1
+Pillow==8.3.2
+google-generativeai==0.3.1

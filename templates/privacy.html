@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - LegalEase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .privacy-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.8;
+        }
+        
+        .privacy-content h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #1e3a8a;
+        }
+        
+        .privacy-content h2 {
+            font-size: 24px;
+            margin: 30px 0 15px;
+            color: #1e3a8a;
+        }
+        
+        .privacy-content p {
+            margin-bottom: 20px;
+        }
+        
+        .privacy-content ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .privacy-content ul li {
+            margin-bottom: 10px;
+            list-style-type: disc;
+        }
+        
+        .last-updated {
+            font-style: italic;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>LegalEase</h1>
+                <p>Making legal documents understandable</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('index') }}#features">Features</a></li>
+                    <li><a href="{{ url_for('privacy_policy') }}" class="active">Privacy</a></li>
+                    <li><a href="{{ url_for('terms_of_service') }}">Terms</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="privacy-content">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last Updated: January 1, 2023</p>
+        
+        <p>At LegalEase, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.</p>
+        
+        <h2>Information We Collect</h2>
+        <p>We collect information that you provide directly to us when using our service:</p>
+        <ul>
+            <li><strong>Document Content:</strong> When you upload legal documents for analysis, we temporarily process the content to provide our services.</li>
+            <li><strong>User Queries:</strong> Questions you ask about your documents are processed to provide relevant answers.</li>
+            <li><strong>Usage Data:</strong> Information about how you access and use our service, including your IP address, browser type, and device information.</li>
+        </ul>
+        
+        <h2>How We Use Your Information</h2>
+        <p>We use the information we collect for various purposes, including to:</p>
+        <ul>
+            <li>Provide, maintain, and improve our services</li>
+            <li>Process and analyze your legal documents</li>
+            <li>Respond to your questions and comments</li>
+            <li>Monitor and analyze usage patterns and trends</li>
+            <li>Protect against, identify, and prevent fraud and other illegal activity</li>
+        </ul>
+        
+        <h2>Data Security</h2>
+        <p>We implement appropriate technical and organizational measures to protect the security of your personal information. However, please be aware that no method of transmission over the Internet or method of electronic storage is 100% secure.</p>
+        
+        <h2>Document Retention</h2>
+        <p>Your uploaded documents and extracted text are only stored temporarily during your active session. Once your session ends or after 24 hours (whichever comes first), all document data is automatically deleted from our servers. We do not maintain permanent copies of your documents.</p>
+        
+        <h2>Third-Party Services</h2>
+        <p>We use Google Cloud's Gemini API to process and analyze legal documents. Your data is processed in accordance with Google's privacy policies and data protection standards. We do not share your personal information with any other third parties except as described in this privacy policy.</p>
+        
+        <h2>Children's Privacy</h2>
+        <p>Our service is not directed to children under the age of 13, and we do not knowingly collect personal information from children under 13. If we learn that we have collected personal information from a child under 13, we will promptly delete that information.</p>
+        
+        <h2>Changes to This Privacy Policy</h2>
+        <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.</p>
+        
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us at privacy@legalease.example.com.</p>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>LegalEase</h2>
+                    <p>Making legal documents understandable</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('index') }}#features">Features</a></li>
+                        <li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ url_for('terms_of_service') }}">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-disclaimer">
+                    <h3>Disclaimer</h3>
+                    <p>LegalEase is not a substitute for professional legal advice. Always consult with a qualified attorney for legal matters.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 LegalEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

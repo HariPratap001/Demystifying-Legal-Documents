@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Analysis - LegalEase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>LegalEase</h1>
+                <p>Making legal documents understandable</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('index') }}#features">Features</a></li>
+                    <li><a href="{{ url_for('privacy_policy') }}">Privacy</a></li>
+                    <li><a href="{{ url_for('terms_of_service') }}">Terms</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="document-analysis">
+        <div class="container">
+            <div class="analysis-tabs">
+                <button class="tab-btn active" data-tab="simplify">Simplified Version</button>
+                <button class="tab-btn" data-tab="summarize">Summary</button>
+                <button class="tab-btn" data-tab="explain_risks">Risk Analysis</button>
+                <button class="tab-btn" data-tab="qa">Ask Questions</button>
+            </div>
+
+            <div class="tab-content">
+                <div id="simplify" class="tab-pane active">
+                    <div class="loading-spinner" id="simplify-loading">
+                        <div class="spinner"></div>
+                        <p>Simplifying document...</p>
+                    </div>
+                    <div class="result-container" id="simplify-result">
+                        <!-- Simplified content will be displayed here -->
+                    </div>
+                </div>
+
+                <div id="summarize" class="tab-pane">
+                    <div class="loading-spinner" id="summarize-loading">
+                        <div class="spinner"></div>
+                        <p>Generating summary...</p>
+                    </div>
+                    <div class="result-container" id="summarize-result">
+                        <!-- Summary content will be displayed here -->
+                    </div>
+                </div>
+
+                <div id="explain_risks" class="tab-pane">
+                    <div class="loading-spinner" id="risks-loading">
+                        <div class="spinner"></div>
+                        <p>Analyzing risks...</p>
+                    </div>
+                    <div class="result-container" id="risks-result">
+                        <!-- Risk analysis content will be displayed here -->
+                    </div>
+                </div>
+
+                <div id="qa" class="tab-pane">
+                    <div class="qa-container">
+                        <h3>Ask a Question About Your Document</h3>
+                        <p>Need clarification on a specific part of your document? Ask a question below:</p>
+                        <div class="question-form">
+                            <textarea id="question-input" placeholder="E.g., What happens if I terminate the contract early?"></textarea>
+                            <button id="ask-btn" class="btn primary-btn">Ask Question</button>
+                        </div>
+                        <div class="loading-spinner" id="qa-loading">
+                            <div class="spinner"></div>
+                            <p>Getting answer...</p>
+                        </div>
+                        <div class="qa-result" id="qa-result">
+                            <!-- Q&A results will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-actions">
+                <a href="{{ url_for('index') }}" class="btn secondary-btn">Upload Another Document</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>LegalEase</h2>
+                    <p>Making legal documents understandable</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('index') }}#features">Features</a></li>
+                        <li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ url_for('terms_of_service') }}">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-disclaimer">
+                    <h3>Disclaimer</h3>
+                    <p>LegalEase is not a substitute for professional legal advice. Always consult with a qualified attorney for legal matters.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 LegalEase. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons and panes
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding pane
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Load content if not already loaded
+                    if (tabId !== 'qa' && !document.getElementById(`${tabId}-result`).innerHTML.trim()) {
+                        loadTabContent(tabId);
+                    }
+                });
+            });
+            
+            // Load simplified content by default
+            loadTabContent('simplify');
+            
+            // Question and answer functionality
+            const askBtn = document.getElementById('ask-btn');
+            askBtn.addEventListener('click', askQuestion);
+        });
+        
+        function loadTabContent(tabType) {
+            // Show loading spinner
+            document.getElementById(`${tabType}-loading`).style.display = 'flex';
+            document.getElementById(`${tabType}-result`).innerHTML = '';
+            
+            // Make API request
+            fetch('/api/simplify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt_type: tabType })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                document.getElementById(`${tabType}-loading`).style.display = 'none';
+                
+                // Display result
+                if (data.result) {
+                    const resultContainer = document.getElementById(`${tabType}-result`);
+                    resultContainer.innerHTML = formatText(data.result);
+                } else {
+                    document.getElementById(`${tabType}-result`).innerHTML = 
+                        '<div class="error-message">Failed to process document. Please try again.</div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById(`${tabType}-loading`).style.display = 'none';
+                document.getElementById(`${tabType}-result`).innerHTML = 
+                    '<div class="error-message">An error occurred. Please try again.</div>';
+            });
+        }
+        
+        function askQuestion() {
+            const question = document.getElementById('question-input').value.trim();
+            
+            if (!question) {
+                alert('Please enter a question.');
+                return;
+            }
+            
+            // Show loading spinner
+            document.getElementById('qa-loading').style.display = 'flex';
+            document.getElementById('qa-result').innerHTML = '';
+            
+            // Make API request
+            fetch('/api/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ question: question })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                document.getElementById('qa-loading').style.display = 'none';
+                
+                // Display result
+                const resultContainer = document.getElementById('qa-result');
+                if (data.answer) {
+                    resultContainer.innerHTML = `
+                        <div class="qa-item">
+                            <div class="question">
+                                <strong>Q:</strong> ${escapeHtml(question)}
+                            </div>
+                            <div class="answer">
+                                <strong>A:</strong> ${formatText(data.answer)}
+                            </div>
+                        </div>
+                        ${resultContainer.innerHTML}
+                    `;
+                    
+                    // Clear question input
+                    document.getElementById('question-input').value = '';
+                } else {
+                    resultContainer.innerHTML = 
+                        '<div class="error-message">Failed to get an answer. Please try again.</div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('qa-loading').style.display = 'none';
+                document.getElementById('qa-result').innerHTML = 
+                    '<div class="error-message">An error occurred. Please try again.</div>';
+            });
+        }
+        
+        function formatText(text) {
+            // Convert line breaks to HTML breaks
+            let formatted = text.replace(/\n/g, '<br>');
+            
+            // Bold important terms (text between ** or in ALL CAPS)
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            formatted = formatted.replace(/\b([A-Z]{2,})\b/g, '<strong>$1</strong>');
+            
+            return formatted;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
